@@ -24,6 +24,7 @@ class ViewController: UIViewController {
         }
     }
     var level = 1
+    var guessedWord = 0
     
     override func loadView() {
         view = UIView()
@@ -117,9 +118,13 @@ class ViewController: UIViewController {
                 let letterButton = UIButton(type: .system)
                 letterButton.titleLabel?.font = UIFont.systemFont(ofSize: 36)
                 letterButton.setTitle("WWW", for: .normal)
+                
+                letterButton.layer.borderWidth = 1
+                letterButton.layer.borderColor = UIColor.lightGray.cgColor
+                
                 letterButton.addTarget(self, action: #selector(letterTapped), for: .touchUpInside)
                 
-                let frame = CGRect(x: column * width, y: row * height, width: width, height: height)
+                let frame = CGRect(x: column * width + 5, y: row * height + 5 , width: width - 5, height: height - 5)
                 letterButton.frame = frame
                 
                 buttonsView.addSubview(letterButton)
@@ -156,12 +161,18 @@ class ViewController: UIViewController {
             
             currentAnswer.text = ""
             score += 1
+            guessedWord += 1
             
-            if score % 7 == 0 {
+            if guessedWord == 7 {
                 let ac = UIAlertController(title: "Well done!", message: "Are you ready for the next level?", preferredStyle: .alert)
                 ac.addAction(UIAlertAction(title: "Let's go!", style: .default, handler: levelUp))
                 present(ac, animated: true)
             }
+        } else {
+            score -= 1
+            let ac = UIAlertController(title: "Sorry!", message: "That word doesn't exist", preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: "Ok", style: .default))
+            present(ac, animated: true)
         }
     }
     
@@ -215,6 +226,7 @@ class ViewController: UIViewController {
     
     func levelUp(action: UIAlertAction) {
         level += 1
+        guessedWord = 0
         
         solutions.removeAll(keepingCapacity: true)
         loadLevel()
