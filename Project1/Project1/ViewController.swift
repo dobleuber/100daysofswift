@@ -18,18 +18,23 @@ class ViewController: UITableViewController {
         
         navigationController?.navigationBar.prefersLargeTitles = true
         
-        let fm = FileManager.default
-        let path = Bundle.main.resourcePath!
-        let items = try! fm.contentsOfDirectory(atPath: path).sorted()
-        
-        for item in items {
-            if item.hasPrefix("nssl") {
-                // this is a picture!!
-                pictures.append(item)
+        DispatchQueue.global(qos: .background).async { [weak self] in
+            let fm = FileManager.default
+            let path = Bundle.main.resourcePath!
+            let items = try! fm.contentsOfDirectory(atPath: path).sorted()
+            
+            for item in items {
+                if item.hasPrefix("nssl") {
+                    // this is a picture!!
+                    self?.pictures.append(item)
+                }
             }
+            
+            DispatchQueue.main.async {
+               [weak self] in
+                   self?.tableView.reloadData()
+               }
         }
-        
-        print(pictures)
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

@@ -108,12 +108,19 @@ class ViewController: UITableViewController {
             let filter = ac.textFields![0]
             
             if filter.text!.isEmpty { return }
+            let loweredText = filter.text!.lowercased()
             
-            self.filteredPetitions = self.petitions.filter {
-                $0.body.lowercased().contains(filter.text!.lowercased())
+            DispatchQueue.global(qos: .background).async {
+                [weak self] in
+                self?.filteredPetitions = self!.petitions.filter {
+                    $0.body.lowercased().contains(loweredText)
+                }
+                
+                DispatchQueue.main.async {
+                    [weak self] in
+                    self?.tableView.reloadData()
+                }
             }
-            
-            self.tableView.reloadData()
         }
         
         ac.addAction(submitAction)
