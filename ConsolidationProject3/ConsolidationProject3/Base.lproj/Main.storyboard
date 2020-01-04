@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="ConsolidationProject3" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="hangman-0.png" translatesAutoresizingMaskIntoConstraints="NO" id="DXY-aB-Oxs">
+                                <rect key="frame" x="20" y="65" width="374" height="256"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SH5-vN-ML5">
+                                <rect key="frame" x="207" y="329" width="0.0" height="0.0"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="36"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="DXY-aB-Oxs" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="187:448" id="0rj-LM-OYT"/>
+                            <constraint firstItem="SH5-vN-ML5" firstAttribute="top" secondItem="DXY-aB-Oxs" secondAttribute="bottom" constant="8" id="O1h-0h-pv3"/>
+                            <constraint firstItem="DXY-aB-Oxs" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="21" id="QiA-tj-gbG"/>
+                            <constraint firstItem="DXY-aB-Oxs" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="W1N-SO-byz"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="DXY-aB-Oxs" secondAttribute="trailing" constant="20" id="W4W-se-ClA"/>
+                            <constraint firstItem="SH5-vN-ML5" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="em2-09-Sbt"/>
+                            <constraint firstItem="DXY-aB-Oxs" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="vbh-N2-2xb"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                    </view>
+                    <connections>
+                        <outlet property="imageView" destination="DXY-aB-Oxs" id="5MT-co-SuP"/>
+                        <outlet property="selectedWord" destination="SH5-vN-ML5" id="CYK-3k-g5Z"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="131.8840579710145" y="138.61607142857142"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="hangman-0.png" width="242" height="256"/>
+    </resources>
+</document>
