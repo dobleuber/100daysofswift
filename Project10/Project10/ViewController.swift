@@ -10,6 +10,7 @@ import UIKit
 
 class ViewController: UICollectionViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     var people = [Person]()
+    var selectedPersonIndex: Int!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,6 +44,7 @@ class ViewController: UICollectionViewController, UIImagePickerControllerDelegat
     
     @objc func addNewPerson() {
         let picker = UIImagePickerController()
+//        picker.sourceType = .camera
         picker.allowsEditing = true
         picker.delegate = self
         present(picker, animated: true)
@@ -71,8 +73,19 @@ class ViewController: UICollectionViewController, UIImagePickerControllerDelegat
     }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let person = people[indexPath.item]
-        
+        selectedPersonIndex = indexPath.item
+        personTapped()
+    }
+    
+    func personTapped() {
+        let ac = UIAlertController(title: "What do you want to do with the user?", message: nil, preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "Rename", style: .default, handler: renamePerson))
+        ac.addAction(UIAlertAction(title: "Delete", style: .default, handler: deletePerson))
+        present(ac, animated: true)
+    }
+    
+    func renamePerson(_ :UIAlertAction) {
+        let person = people[selectedPersonIndex]
         let ac = UIAlertController(title: "Rename person", message: nil, preferredStyle: .alert)
         ac.addTextField()
         
@@ -85,6 +98,13 @@ class ViewController: UICollectionViewController, UIImagePickerControllerDelegat
         
         ac.addAction(UIAlertAction(title: "Cancel", style: .cancel))
         present(ac, animated: true)
+        selectedPersonIndex = nil
+    }
+    
+    func deletePerson(_ :UIAlertAction) {
+        people.remove(at: selectedPersonIndex)
+        collectionView.reloadData()
+        selectedPersonIndex = nil
     }
 }
 
