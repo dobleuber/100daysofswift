@@ -16,6 +16,7 @@ class ViewController: UIViewController {
     var countries = [String]()
     var score = 0
     var correctAnswer = 0
+    var highestScore = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,6 +36,11 @@ class ViewController: UIViewController {
         askQuestion()
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(showTapped))
+        
+        let defaults = UserDefaults.standard
+        
+        highestScore = defaults.integer(forKey: "highestScore")
+        
     }
     
     func askQuestion(action: UIAlertAction! = nil) {
@@ -64,6 +70,14 @@ class ViewController: UIViewController {
             if score > 0 {
                 score -=  1
             }
+        }
+        
+        if score > highestScore {
+            title = "You beat the highest score!"
+            let defaults = UserDefaults.standard
+            
+            highestScore = score
+            defaults.set(highestScore, forKey: "highestScore")
         }
         
         if (score == 10) {

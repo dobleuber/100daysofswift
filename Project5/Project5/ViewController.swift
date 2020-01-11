@@ -28,14 +28,22 @@ class ViewController: UITableViewController {
             allWords = ["silkworm"]
         }
         
-        startGame()
+        loadPreviewsGame()
+        
+        if title == nil {
+            startGame()
+        }
     }
     
     @objc func startGame() {
         title = allWords.randomElement()
         usedWords.removeAll(keepingCapacity: true)
         tableView.reloadData()
+        
+        let defaults = UserDefaults.standard
+        defaults.set(title, forKey: "currentWord")
     }
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return usedWords.count
     }
@@ -73,7 +81,7 @@ class ViewController: UITableViewController {
 
                     let indexPath = IndexPath(row: 0, section: 0)
                     tableView.insertRows(at: [indexPath], with: .automatic)
-
+                    saveState()
                     return
                 } else {
                     errorTitle = "Word not recognised"
@@ -126,6 +134,18 @@ class ViewController: UITableViewController {
         let misspelledRange = checker.rangeOfMisspelledWord(in: word, range: range, startingAt: 0, wrap: false, language: "en")
         
         return misspelledRange.location == NSNotFound
+    }
+    
+    func saveState () {
+        let defaults = UserDefaults.standard
+        defaults.set(usedWords, forKey: "usedWords")
+    }
+    
+    func loadPreviewsGame() {
+        let defaults = UserDefaults.standard
+        title = defaults.string(forKey: "currentWord")
+        usedWords = defaults.object(forKey: "usedWords") as? [String] ?? [String]()
+        tableView.reloadData()
     }
 }
 

@@ -11,4 +11,5 @@ import UIKit
 class PictureCell: UICollectionViewCell {
     @IBOutlet var image: UIImageView!
     @IBOutlet var name: UILabel!
+    @IBOutlet var viewCount: UILabel!
 }

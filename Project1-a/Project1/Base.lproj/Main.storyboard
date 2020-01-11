@@ -41,11 +41,19 @@
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DgB-cG-cWu">
+                                            <rect key="frame" x="10" y="171" width="130" height="17"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
                                     </subviews>
                                 </collectionViewCellContentView>
                                 <connections>
                                     <outlet property="image" destination="3cd-5O-AdI" id="IYp-tM-GWu"/>
                                     <outlet property="name" destination="W6s-kt-pSh" id="i0q-yT-dYq"/>
+                                    <outlet property="viewCount" destination="DgB-cG-cWu" id="wgW-PK-4o5"/>
                                 </connections>
                             </collectionViewCell>
                         </cells>

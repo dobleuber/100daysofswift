@@ -10,6 +10,7 @@ import UIKit
 
 class ViewController: UICollectionViewController {
     var pictures = [String]()
+    var viewCount = [String: Int]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,6 +30,8 @@ class ViewController: UICollectionViewController {
                     self?.pictures.append(item)
                 }
             }
+            
+            self?.getViews()
             
             DispatchQueue.main.async {
                [weak self] in
@@ -50,6 +53,8 @@ class ViewController: UICollectionViewController {
         
         cell.name.text = picture
         cell.image.image = UIImage(named: picture)
+        let views = viewCount[picture] ?? 0
+        cell.viewCount.text = "Views \(views)"
         
         return cell
     }
@@ -59,7 +64,24 @@ class ViewController: UICollectionViewController {
             vc.selectedImage = pictures[indexPath.item]
             vc.currentImage = indexPath.row
             vc.imageCount = pictures.count
+            updateViews(imageIndex: indexPath.item)
+            collectionView.reloadItems(at: [indexPath])
             navigationController?.pushViewController(vc, animated: true)
         }
+    }
+    
+    func getViews() {
+        let defaults = UserDefaults.standard
+        viewCount = defaults.object(forKey: "views") as? [String: Int] ?? [String: Int]()
+    }
+    
+    func updateViews(imageIndex: Int) {
+        let defaults = UserDefaults.standard
+        
+        let views = viewCount[pictures[imageIndex]] ?? 0;
+        
+        viewCount[pictures[imageIndex]] = views + 1
+        
+        defaults.set(viewCount, forKey: "views")
     }
 }
