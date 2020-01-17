@@ -12,11 +12,18 @@ import UIKit
 class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     @IBOutlet var imageView: UIImageView!
     @IBOutlet var intensity: UISlider!
+    @IBOutlet var filterLabel: UIButton!
     
     var currentImage: UIImage!
     
     var context: CIContext!
     var currentFilter: CIFilter!
+    var currentFilterName: String! {
+        didSet {
+            filterLabel.setTitle(currentFilterName, for: .normal)
+            currentFilter = CIFilter(name: currentFilterName)
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,7 +33,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(importPicture))
         
         context = CIContext()
-        currentFilter = CIFilter(name: "CISepiaTone")
+        currentFilterName = "CISepiaTone"
     }
 
     @IBAction func changeFilter(_ sender: UIButton) {
@@ -53,7 +60,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         guard currentImage != nil else {return}
         guard let actionTitle = action.title else {return}
         
-        currentFilter = CIFilter(name: actionTitle)
+        currentFilterName = actionTitle
         
         let beginImage = CIImage(image: currentImage)
         currentFilter.setValue(beginImage, forKey: kCIInputImageKey)
@@ -62,10 +69,14 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     
     @IBAction func save(_ sender: Any) {
-        guard let image = imageView.image else {
-            return
+        if let image = imageView.image {
+            UIImageWriteToSavedPhotosAlbum(image, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
+        } else {
+            let ac = UIAlertController(title: "There is no image to save", message: nil, preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: "OK", style: .default))
+            present(ac, animated: true)
         }
-        UIImageWriteToSavedPhotosAlbum(image, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
+        
     }
     @IBAction func intensityChanged(_ sender: Any) {
         applyProcessing()
