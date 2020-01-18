@@ -15,6 +15,8 @@
 		5A56E8F223D29F4A0003AB0F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5A56E8F123D29F4A0003AB0F /* Assets.xcassets */; };
 		5A56E8F523D29F4A0003AB0F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5A56E8F323D29F4A0003AB0F /* LaunchScreen.storyboard */; };
 		5A56E8FF23D2A2CD0003AB0F /* WhackSlot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A56E8FE23D2A2CD0003AB0F /* WhackSlot.swift */; };
+		5AD1AF3723D3A33100DD00E8 /* FireParticles.sks in Resources */ = {isa = PBXBuildFile; fileRef = 5AD1AF3623D3A33100DD00E8 /* FireParticles.sks */; };
+		5AD1AF3923D3A4D600DD00E8 /* MudParticles.sks in Resources */ = {isa = PBXBuildFile; fileRef = 5AD1AF3823D3A4D600DD00E8 /* MudParticles.sks */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +32,9 @@
 		5A56E8FC23D2A04E0003AB0F /* whack.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = whack.caf; sourceTree = "<group>"; };
 		5A56E8FD23D2A04E0003AB0F /* whackBad.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = whackBad.caf; sourceTree = "<group>"; };
 		5A56E8FE23D2A2CD0003AB0F /* WhackSlot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhackSlot.swift; sourceTree = "<group>"; };
+		5AD1AF3123D39AB000DD00E8 /* gameOver.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = gameOver.caf; sourceTree = "<group>"; };
+		5AD1AF3623D3A33100DD00E8 /* FireParticles.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = FireParticles.sks; path = ../../Project11/Project11/FireParticles.sks; sourceTree = "<group>"; };
+		5AD1AF3823D3A4D600DD00E8 /* MudParticles.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MudParticles.sks; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +71,7 @@
 				5A56E8E623D29F470003AB0F /* GameScene.sks */,
 				5A56E8EA23D29F470003AB0F /* GameScene.swift */,
 				5A56E8FE23D2A2CD0003AB0F /* WhackSlot.swift */,
+				5AD1AF3823D3A4D600DD00E8 /* MudParticles.sks */,
 				5A56E8EC23D29F470003AB0F /* GameViewController.swift */,
 				5A56E8EE23D29F470003AB0F /* Main.storyboard */,
 				5A56E8F123D29F4A0003AB0F /* Assets.xcassets */,
@@ -73,6 +79,8 @@
 				5A56E8F623D29F4A0003AB0F /* Info.plist */,
 				5A56E8FC23D2A04E0003AB0F /* whack.caf */,
 				5A56E8FD23D2A04E0003AB0F /* whackBad.caf */,
+				5AD1AF3123D39AB000DD00E8 /* gameOver.caf */,
+				5AD1AF3623D3A33100DD00E8 /* FireParticles.sks */,
 			);
 			path = Project14;
 			sourceTree = "<group>";
@@ -137,7 +145,9 @@
 			files = (
 				5A56E8F023D29F470003AB0F /* Main.storyboard in Resources */,
 				5A56E8E723D29F470003AB0F /* GameScene.sks in Resources */,
+				5AD1AF3923D3A4D600DD00E8 /* MudParticles.sks in Resources */,
 				5A56E8F223D29F4A0003AB0F /* Assets.xcassets in Resources */,
+				5AD1AF3723D3A33100DD00E8 /* FireParticles.sks in Resources */,
 				5A56E8F523D29F4A0003AB0F /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -11,8 +11,12 @@ import SpriteKit
 class GameScene: SKScene {
     var slots = [WhackSlot]()
     var gameScore: SKLabelNode!
+    var playAgain: SKLabelNode!
+    var finalScore: SKLabelNode!
+    var gameOverSN: SKSpriteNode!
     
     var popupTime = 0.85
+    var numRounds = 0
     
     var score = 0 {
         didSet {
@@ -44,14 +48,40 @@ class GameScene: SKScene {
             createSlot(at: CGPoint(x: 180 + (i * 170), y: 140))
         }
         
-        DispatchQueue.main.asyncAfter(wallDeadline: .now() + 1) {
-            [weak self] in
-            self?.createEnemy()
-        }
+        newGame()
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-    
+        guard let touch = touches.first else {return}
+        let location = touch.location(in: self)
+        let tappedNodes = nodes(at: location)
+        
+        if playAgain != nil && tappedNodes.contains(playAgain) {
+            newGame()
+        } else {
+            for node in tappedNodes {
+                guard let whackSlot = node.parent?.parent as? WhackSlot else {continue}
+                if !whackSlot.isVisible || whackSlot.isHit {
+                    continue
+                }
+                
+                whackSlot.hit()
+                
+                if node.name == "charFriend" {
+                    
+                    score -= 5
+                    
+                    run(SKAction.playSoundFileNamed("whackBad.caf", waitForCompletion: false))
+                } else if node.name == "charEnemy" {
+                    whackSlot.charNode.xScale = 0.85
+                    whackSlot.charNode.yScale = 0.85
+                    
+                    score += 1
+                    
+                    run(SKAction.playSoundFileNamed("whack.caf", waitForCompletion: false))
+                }
+            }
+        }
     }
  
     func createSlot(at position: CGPoint) {
@@ -62,6 +92,13 @@ class GameScene: SKScene {
     }
     
     func createEnemy() {
+        numRounds += 1
+        
+        if (numRounds >= 30) {
+            gameOver()
+            return
+        }
+        
         popupTime *= 0.991
         slots.shuffle()
         slots[0].show(hideTime: popupTime)
@@ -88,6 +125,60 @@ class GameScene: SKScene {
         let delay = Double.random(in: minDelay...maxDelay)
         
         DispatchQueue.main.asyncAfter(wallDeadline: .now() + delay) {
+            [weak self] in
+            self?.createEnemy()
+        }
+    }
+    
+    func gameOver() {
+        for slot in slots {
+            slot.hide()
+        }
+        
+        gameOverSN = SKSpriteNode(imageNamed: "gameOver")
+        gameOverSN.position = CGPoint(x: 512, y: 384)
+        gameOverSN.zPosition = 1
+        addChild(gameOverSN)
+        
+        finalScore = SKLabelNode(fontNamed: "Chalkduster")
+        finalScore.text = "Final Score: \(score)"
+        finalScore.position = CGPoint(x: 512, y: 284)
+        finalScore.horizontalAlignmentMode = .center
+        finalScore.fontSize = 48
+        finalScore.zPosition = 1
+        
+        addChild(finalScore)
+        
+        playAgain = SKLabelNode(fontNamed: "Chalkduster")
+        playAgain.text = "Play Again?"
+        playAgain.position = CGPoint(x: 512, y: 184)
+        playAgain.horizontalAlignmentMode = .center
+        playAgain.fontSize = 32
+        playAgain.zPosition = 1
+        
+        addChild(playAgain)
+        
+        run(SKAction.playSoundFileNamed("gameOver.caf", waitForCompletion: false))
+    }
+    
+    func newGame () {
+        score = 0
+        popupTime = 0.85
+        numRounds = 0
+        
+        if (gameOverSN != nil) {
+            gameOverSN.removeFromParent()
+        }
+        
+        if (finalScore != nil) {
+            finalScore.removeFromParent()
+        }
+        
+        if (playAgain != nil) {
+            playAgain.removeFromParent()
+        }
+        
+        DispatchQueue.main.asyncAfter(wallDeadline: .now() + 1) {
             [weak self] in
             self?.createEnemy()
         }
