@@ -22,9 +22,6 @@ class ViewController: UIViewController {
 
     @IBAction func tapped(_ sender: UIButton) {
         sender.isHidden = true
-        
-        
-//        UIView.animate(withDuration: 1, delay: 0, options: [], animations: {
         UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 5, options: [], animations: {
             switch self.currentAnimation {
             case 0:
@@ -58,9 +55,6 @@ class ViewController: UIViewController {
         if currentAnimation > 7 {
             currentAnimation = 0
         }
-        
-        
     }
-    
 }
 
