@@ -14,6 +14,7 @@
 		5A959C3D23D91DB60063824D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5A959C3C23D91DB60063824D /* Assets.xcassets */; };
 		5A959C4023D91DB60063824D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5A959C3E23D91DB60063824D /* LaunchScreen.storyboard */; };
 		5A959C4823D91F9F0063824D /* Capital.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A959C4723D91F9F0063824D /* Capital.swift */; };
+		5A959C4B23DA83E40063824D /* CountryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A959C4A23DA83E40063824D /* CountryViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		5A959C3F23D91DB60063824D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5A959C4123D91DB60063824D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5A959C4723D91F9F0063824D /* Capital.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Capital.swift; sourceTree = "<group>"; };
+		5A959C4A23DA83E40063824D /* CountryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +60,7 @@
 		5A959C3223D91DB40063824D /* Project16 */ = {
 			isa = PBXGroup;
 			children = (
+				5A959C4A23DA83E40063824D /* CountryViewController.swift */,
 				5A959C3323D91DB40063824D /* AppDelegate.swift */,
 				5A959C3523D91DB40063824D /* SceneDelegate.swift */,
 				5A959C3723D91DB40063824D /* ViewController.swift */,
@@ -144,6 +147,7 @@
 				5A959C3823D91DB40063824D /* ViewController.swift in Sources */,
 				5A959C3423D91DB40063824D /* AppDelegate.swift in Sources */,
 				5A959C4823D91F9F0063824D /* Capital.swift in Sources */,
+				5A959C4B23DA83E40063824D /* CountryViewController.swift in Sources */,
 				5A959C3623D91DB40063824D /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

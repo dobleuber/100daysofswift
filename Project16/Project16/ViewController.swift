@@ -21,6 +21,8 @@ class ViewController: UIViewController, MKMapViewDelegate {
         let washington = Capital(title: "Washington", coordinate: CLLocationCoordinate2D(latitude: 38.895111, longitude: -77.036667), info: "Named after George himself")
         
         mapView.addAnnotations([london, oslo, paris, rome, washington])
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Map Type", style: .plain, target: self, action: #selector(showSelectType))
     }
 
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
@@ -28,7 +30,7 @@ class ViewController: UIViewController, MKMapViewDelegate {
         
         let identifier = "Capital"
         
-        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
+        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? MKPinAnnotationView
         
         if annotationView == nil {
             annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
@@ -40,6 +42,8 @@ class ViewController: UIViewController, MKMapViewDelegate {
             annotationView?.annotation = annotation
         }
         
+        annotationView?.pinTintColor = .green
+        
         return annotationView
     }
     
@@ -48,13 +52,32 @@ class ViewController: UIViewController, MKMapViewDelegate {
             return
         }
         
-        let placeName = capital.title
-        let placeInfo = capital.info
+        if let vc = storyboard?.instantiateViewController(identifier: "CityDetail") as? CountryViewController {
+            vc.url = capital.url
+            navigationController?.pushViewController(vc, animated: true)
+        }
+    }
+    
+    @objc func showSelectType() {
+        let ac = UIAlertController(title: "Select Map Type", message: nil, preferredStyle: .actionSheet)
         
-        let ac = UIAlertController(title: placeName, message: placeInfo, preferredStyle: .alert)
-        ac.addAction(UIAlertAction(title: "Ok", style: .default))
+        ac.addAction(UIAlertAction(title: "Standard", style: .default) {
+            [weak self] _ in
+            self?.mapView.mapType = .standard
+        })
+        
+        ac.addAction(UIAlertAction(title: "Satellite", style: .default) {
+            [weak self] _ in
+            self?.mapView.mapType = .satellite
+        })
+        
+        ac.addAction(UIAlertAction(title: "Hybrid", style: .default) {
+            [weak self] _ in
+            self?.mapView.mapType = .hybrid
+        })
         
         present(ac, animated: true)
     }
+    
 }
 
