@@ -24,6 +24,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    var timerTime = 1.0
+    var enemyCount = 0
+    
     override func didMove(to view: SKView) {
         backgroundColor = .black
         
@@ -48,8 +51,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         physicsWorld.gravity = .zero
         physicsWorld.contactDelegate = self
+        setTimer(time: timerTime)
         
-        gameTimer = Timer.scheduledTimer(timeInterval: 0.35, target: self, selector: #selector(createEnemy), userInfo: nil, repeats: true)
     }
     
     @objc func createEnemy() {
@@ -65,6 +68,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         sprite.physicsBody?.angularVelocity = 5
         sprite.physicsBody?.linearDamping = 0
         sprite.physicsBody?.angularDamping = 0
+        
+        enemyCount += 1
+        
+        if enemyCount % 20 == 0 {
+            if timerTime > 0.2 {
+                timerTime -= 0.1
+                setTimer(time: timerTime)
+            }
+        }
     }
     
     override func update(_ currentTime: TimeInterval) {
@@ -99,5 +111,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         player.removeFromParent()
         isGameOver = true
+        gameTimer?.invalidate()
+    }
+    
+    func setTimer(time: TimeInterval) {
+        print("created timer with: \(time)")
+        if (gameTimer != nil) {
+            gameTimer?.invalidate()
+        }
+        gameTimer = Timer.scheduledTimer(timeInterval: time, target: self, selector: #selector(createEnemy), userInfo: nil, repeats: true)
     }
 }
