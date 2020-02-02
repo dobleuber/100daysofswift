@@ -20,12 +20,12 @@ class ActionViewController: UIViewController {
         super.viewDidLoad()
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(done))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .bookmarks, target: self, action: #selector(chooseDefinedAction))
         
         let notificationCenter = NotificationCenter.default
         
         notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: UIResponder.keyboardWillHideNotification, object: nil)
         notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
-        
         
         if let inputItem = extensionContext?.inputItems.first as? NSExtensionItem {
             if let itemProvider = inputItem.attachments?.first {
@@ -44,8 +44,18 @@ class ActionViewController: UIViewController {
                     self?.pageTitle = javascriptValues["title"] as? String ?? ""
                     self?.pageURL = javascriptValues["URL"] as? String ?? ""
                     
+                    let userDefaults = UserDefaults.standard
+                    var prevScript: String?
+                    
+                    if let url = self?.pageURL {
+                        prevScript = userDefaults.string(forKey: url)
+                    }
+                    
                     DispatchQueue.main.async {
                         self?.title = self?.pageTitle
+                        if prevScript != nil {
+                            self?.script.text = prevScript
+                        }
                     }
                 }
             }
@@ -54,12 +64,16 @@ class ActionViewController: UIViewController {
 
     @IBAction func done() {
         let item = NSExtensionItem()
-        let argument: NSDictionary = ["customJavaScript": script.text]
+        let argument: NSDictionary = ["customJavaScript": script.text!]
         let webDictionary: NSDictionary = [NSExtensionJavaScriptFinalizeArgumentKey: argument]
         
         let customJavaScript = NSItemProvider(item: webDictionary, typeIdentifier: kUTTypePropertyList as String)
         item.attachments = [customJavaScript]
         extensionContext?.completeRequest(returningItems: [item])
+        
+        let userDefaults = UserDefaults.standard
+        
+        userDefaults.set(script.text!, forKey: pageURL)
     }
     
     @objc func adjustForKeyboard(notification: Notification) {
@@ -78,6 +92,30 @@ class ActionViewController: UIViewController {
         
         let selectedRange = script.selectedRange
         script.scrollRangeToVisible(selectedRange)
+    }
+    
+    @objc func chooseDefinedAction() {
+        let ac = UIAlertController(title: "Predefined Actions", message: nil, preferredStyle: .actionSheet)
+        
+        ac.addAction(UIAlertAction(title: "Say hi", style: .default) {
+            [weak self] _ in
+            self?.script.text =
+                """
+                alert('Hi')
+                """
+        })
+        
+        ac.addAction(UIAlertAction(title: "Say bye", style: .default) {
+            [weak self] _ in
+            self?.script.text =
+                """
+                alert('Bye')
+                """
+        })
+        
+        ac.addAction(UIAlertAction(title: "OK", style: .cancel))
+        
+        present(ac, animated: true)
     }
 
 }
