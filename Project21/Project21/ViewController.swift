@@ -35,12 +35,7 @@ class ViewController: UIViewController, UNUserNotificationCenterDelegate {
         let center = UNUserNotificationCenter.current()
         center.removeAllPendingNotificationRequests()
         
-        let content = UNMutableNotificationContent()
-        content.title = "Late wake up call"
-        content.body = "The early bird catches the worm, but the second mouse gets the cheese."
-        content.categoryIdentifier = "alarm"
-        content.userInfo = ["customData": "bizzbizz"]
-        content.sound = .default
+        let content = createAlertNotification()
         
         var dateComponents = DateComponents()
         dateComponents.hour = 10
@@ -60,8 +55,9 @@ class ViewController: UIViewController, UNUserNotificationCenterDelegate {
         center.delegate = self
         
         let show = UNNotificationAction(identifier: "show", title: "Tell me more...", options: .foreground)
+        let remindLater = UNNotificationAction(identifier: "later", title: "Remind me later", options: .destructive)
         
-        let category = UNNotificationCategory(identifier: "alarm", actions: [show], intentIdentifiers: [], options: [])
+        let category = UNNotificationCategory(identifier: "alarm", actions: [show, remindLater], intentIdentifiers: [], options: [])
         
         center.setNotificationCategories([category])
     }
@@ -74,15 +70,36 @@ class ViewController: UIViewController, UNUserNotificationCenterDelegate {
             
             switch response.actionIdentifier {
             case UNNotificationDefaultActionIdentifier:
-                print("Defaul identifier")
+                let ac = UIAlertController(title: "Default", message: "Default message", preferredStyle: .alert)
+                ac.addAction(UIAlertAction(title: "Ok", style: .default))
+                present(ac, animated: true)
             case "show":
-                print("show more info...")
+                let ac = UIAlertController(title: "Showing more info", message: nil, preferredStyle: .alert)
+                ac.addAction(UIAlertAction(title: "Ok", style: .default))
+                present(ac, animated: true)
+            case "later":
+                let center = UNUserNotificationCenter.current()
+                let content = createAlertNotification()
+                let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 10, repeats: false)
+                let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+                center.add(request)
             default:
                 break
             }
         }
         
         completionHandler()
+    }
+    
+    func createAlertNotification() -> UNMutableNotificationContent {
+        let content = UNMutableNotificationContent()
+        content.title = "Late wake up call"
+        content.body = "The early bird catches the worm, but the second mouse gets the cheese."
+        content.categoryIdentifier = "alarm"
+        content.userInfo = ["customData": "bizzbizz"]
+        content.sound = .default
+        
+        return content
     }
 }
 

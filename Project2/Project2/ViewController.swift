@@ -41,6 +41,8 @@ class ViewController: UIViewController {
         
         highestScore = defaults.integer(forKey: "highestScore")
         
+        requestPermission()
+        
     }
     
     func askQuestion(action: UIAlertAction! = nil) {
@@ -124,6 +126,29 @@ class ViewController: UIViewController {
             title: "OK", style: .default))
         
         present(ac, animated: true)
+    }
+    
+    func requestPermission() {
+        let center = UNUserNotificationCenter.current()
+        center.requestAuthorization(options: [.alert, .badge, .sound]) {
+            granted, error in
+            if granted {
+                center.removeAllPendingNotificationRequests()
+                let content = UNMutableNotificationContent()
+                content.title = "Do you want to play today?"
+                content.categoryIdentifier = "alarm"
+                content.sound = .default
+                var dateComponents = DateComponents()
+                dateComponents.hour = 12
+                dateComponents.minute = 00
+                        
+                let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
+                let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+                center.add(request)
+            } else {
+                print("Upps!")
+            }
+        }
     }
     
 }
