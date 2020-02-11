@@ -15,9 +15,13 @@ class ViewController: UITableViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addFolder))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addFolder))
         
-//        let userDefaults = UserDefaults.standard
+        let userDefaults = UserDefaults.standard
+        
+        if let data = userDefaults.data(forKey: "notes") {
+            folders = parseFolder(json: data)
+        }
     }
 
 
@@ -41,6 +45,7 @@ class ViewController: UITableViewController {
         let folder = folders[indexPath.row]
         
         vc.folder = folder
+        vc.folders = folders
         
         vc.title = folder.name
         
@@ -59,6 +64,7 @@ class ViewController: UITableViewController {
         }
         
         ac.addAction(okAction)
+        ac.addAction(UIAlertAction(title: "Cancel", style: .default))
         
         present(ac, animated: true)
     }
@@ -67,6 +73,12 @@ class ViewController: UITableViewController {
         folders.insert(Folder(name: folderName, notes: [Note]()), at: 0)
         let indexPath = IndexPath(row: 0, section: 0)
         tableView.insertRows(at: [indexPath], with: .automatic)
+        
+        let userDefaults = UserDefaults.standard
+        
+        let jsonData = encodeFolder(folders: folders)
+        
+        userDefaults.set(jsonData, forKey: "notes")
     }
 }
 

@@ -10,10 +10,15 @@ import UIKit
 
 class NoteViewController: UIViewController {
     var note: Note!
-
+    @IBOutlet var noteTextView: UITextView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        noteTextView.text = note.content
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        note.content = noteTextView.text
     }
 }

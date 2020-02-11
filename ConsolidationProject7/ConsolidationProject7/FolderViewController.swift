@@ -9,14 +9,12 @@
 import UIKit
 
 class FolderViewController: UITableViewController {
-    
+    var folders: [Folder]!
     var folder: Folder!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addNote))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addNote))
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -33,6 +31,16 @@ class FolderViewController: UITableViewController {
         return cell
     }
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let vc = storyboard?.instantiateViewController(identifier: "note") as? NoteViewController else {return}
+        
+        let note = folder.notes[indexPath.row]
+        
+        vc.note = note
+        
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
     @objc func addNote() {
         guard let vc = storyboard?.instantiateViewController(identifier: "note") as? NoteViewController else {return}
         
@@ -41,7 +49,19 @@ class FolderViewController: UITableViewController {
         folder.notes.insert(note, at: 0)
         vc.note = note
         
+        let indexPath = IndexPath(row: 0, section: 0)
+        tableView.insertRows(at: [indexPath], with: .automatic)
+        
         navigationController?.pushViewController(vc, animated: true)
     }
-
+    
+    override func viewDidAppear(_ animated: Bool) {
+        let userDefaults = UserDefaults.standard
+        
+        let jsonData = encodeFolder(folders: folders)
+        
+        userDefaults.set(jsonData, forKey: "notes")
+        
+        tableView.reloadData()
+    }
 }
