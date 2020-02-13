@@ -16,22 +16,37 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="UNKOWN" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ifY-bM-d7M">
-                                <rect key="frame" x="125" y="429" width="164" height="48"/>
+                                <rect key="frame" x="125" y="629" width="164" height="48"/>
                                 <fontDescription key="fontDescription" type="system" weight="thin" pointSize="40"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="UNKOWN" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QzY-mS-nZm">
+                                <rect key="frame" x="125" y="229" width="164" height="48"/>
+                                <fontDescription key="fontDescription" type="system" weight="thin" pointSize="40"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" misplaced="YES" image="heart.circle" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="jra-ad-wLZ">
+                                <rect key="frame" x="107" y="348.5" width="200" height="199"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="ifY-bM-d7M" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="3qc-E8-F39"/>
+                            <constraint firstItem="ifY-bM-d7M" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" constant="200" id="3qc-E8-F39"/>
+                            <constraint firstItem="jra-ad-wLZ" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="6bo-c4-9pJ"/>
+                            <constraint firstItem="QzY-mS-nZm" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="OKK-fm-m7P"/>
                             <constraint firstItem="ifY-bM-d7M" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="c20-qu-w4k"/>
+                            <constraint firstItem="QzY-mS-nZm" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" constant="-200" id="o19-tJ-aEH"/>
+                            <constraint firstItem="jra-ad-wLZ" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="yoI-DW-DvC"/>
                             <constraint firstItem="ifY-bM-d7M" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="zjI-vm-XvL"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="distanceReadin2" destination="QzY-mS-nZm" id="cA0-8L-waw"/>
                         <outlet property="distanceReading" destination="ifY-bM-d7M" id="JIW-LP-WFN"/>
+                        <outlet property="signalStrenghtImage" destination="jra-ad-wLZ" id="ghM-xH-Ekl"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -39,4 +54,7 @@
             <point key="canvasLocation" x="137.68115942028987" y="138.61607142857142"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="heart.circle" catalog="system" width="64" height="60"/>
+    </resources>
 </document>
