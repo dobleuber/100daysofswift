@@ -47,6 +47,13 @@ class GameScene: SKScene {
     
     var isGameEnded = false
     
+    let firstQuarter: CGFloat = 256
+    let secondQuarter: CGFloat = 512.0
+    let thirdQuarter: CGFloat = 768.0
+    
+    let normalVelocity = 40
+    let superVelocity = 80
+    
     override func didMove(to view: SKView) {
         let background = SKSpriteNode(imageNamed: "sliceBackground")
         background.position = CGPoint(x: 512, y: 384)
@@ -125,12 +132,20 @@ class GameScene: SKScene {
         let nodesAtPoint = nodes(at: location)
         
         for case let node as SKSpriteNode in nodesAtPoint {
-            if node.name == "enemy" {
+            if node.name == "enemy" || node.name == "ball" {
                 // destroy penguin
                 if let emitter = SKEmitterNode(fileNamed: "sliceHitEnemy") {
                     emitter.position = node.position
                     addChild(emitter)
                 }
+                
+                // red ball add 5 to the score!!
+                if node.name == "enemy" {
+                    score += 1
+                } else {
+                    score += 5
+                }
+                
                 
                 node.name = ""
                 node.physicsBody?.isDynamic = false
@@ -142,7 +157,6 @@ class GameScene: SKScene {
                 let seq = SKAction.sequence([group, .removeFromParent()])
                 node.run(seq)
                 
-                score += 1
                 
                 if let index = activeEnemies.firstIndex(of: node) {
                     activeEnemies.remove(at: index)
@@ -195,6 +209,11 @@ class GameScene: SKScene {
             livesImages[1].texture = SKTexture(imageNamed: "sliceLifeGone")
             livesImages[2].texture = SKTexture(imageNamed: "sliceLifeGone")
         }
+        
+        let gameOver = SKSpriteNode(texture: SKTexture(imageNamed: "gameOver"))
+        gameOver.position = CGPoint(x: secondQuarter, y: 300)
+        gameOver.zPosition = 5
+        addChild(gameOver)
     }
     
     func playSwooshSound() {
@@ -289,11 +308,16 @@ class GameScene: SKScene {
                 emitter.position = CGPoint(x: 76, y: 64)
                 enemy.addChild(emitter)
             }
-        } else {
+        } else if enemyType > 0 && enemyType < 4 {
             enemy = SKSpriteNode(imageNamed: "penguin")
             run(SKAction.playSoundFileNamed("launch.caf", waitForCompletion: false))
             
             enemy.name = "enemy"
+        } else {
+            enemy = SKSpriteNode(imageNamed: "ballRed")
+            run(SKAction.playSoundFileNamed("launch.caf", waitForCompletion: false))
+            
+            enemy.name = "ball"
         }
         
         // position code
@@ -303,11 +327,11 @@ class GameScene: SKScene {
         let randomAngularVelocity = CGFloat.random(in: -3...3)
         let randomXVelocity: Int
         
-        if randomPosition.x < 256 {
+        if randomPosition.x < firstQuarter {
             randomXVelocity = Int.random(in: 8...15)
-        } else if randomPosition.x < 512 {
+        } else if randomPosition.x < secondQuarter {
             randomXVelocity = Int.random(in: 3...5)
-        } else if randomPosition.x < 768 {
+        } else if randomPosition.x < thirdQuarter {
             randomXVelocity = -Int.random(in: 3...5)
         } else {
             randomXVelocity = -Int.random(in: 8...15)
@@ -316,7 +340,12 @@ class GameScene: SKScene {
         let randomYVelocity = Int.random(in: 24...32)
         
         enemy.physicsBody = SKPhysicsBody(circleOfRadius: 64)
-        enemy.physicsBody?.velocity = CGVector(dx: randomXVelocity * 40, dy: randomYVelocity * 40)
+        if enemy.name == "ball" {
+            enemy.physicsBody?.velocity = CGVector(dx: randomXVelocity * superVelocity, dy: randomYVelocity * superVelocity)
+        } else {
+            enemy.physicsBody?.velocity = CGVector(dx: randomXVelocity * normalVelocity, dy: randomYVelocity * normalVelocity)
+        }
+        
         enemy.physicsBody?.angularVelocity = randomAngularVelocity
         enemy.physicsBody?.collisionBitMask = 0
         
