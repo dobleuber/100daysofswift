@@ -15,6 +15,7 @@
 		5A285CED2404AE0A00850F6D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5A285CEC2404AE0A00850F6D /* Assets.xcassets */; };
 		5A285CF02404AE0A00850F6D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5A285CEE2404AE0A00850F6D /* LaunchScreen.storyboard */; };
 		5A285CF82404AE8500850F6D /* level1.txt in Resources */ = {isa = PBXBuildFile; fileRef = 5A285CF72404AE8500850F6D /* level1.txt */; };
+		5A996574240A013800DF90D6 /* level2.txt in Resources */ = {isa = PBXBuildFile; fileRef = 5A996573240A013800DF90D6 /* level2.txt */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		5A285CEF2404AE0A00850F6D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5A285CF12404AE0A00850F6D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5A285CF72404AE8500850F6D /* level1.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = level1.txt; sourceTree = "<group>"; };
+		5A996573240A013800DF90D6 /* level2.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = level2.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +71,7 @@
 				5A285CEE2404AE0A00850F6D /* LaunchScreen.storyboard */,
 				5A285CF12404AE0A00850F6D /* Info.plist */,
 				5A285CF72404AE8500850F6D /* level1.txt */,
+				5A996573240A013800DF90D6 /* level2.txt */,
 			);
 			path = Project26;
 			sourceTree = "<group>";
@@ -133,6 +136,7 @@
 			files = (
 				5A285CF82404AE8500850F6D /* level1.txt in Resources */,
 				5A285CEB2404AE0900850F6D /* Main.storyboard in Resources */,
+				5A996574240A013800DF90D6 /* level2.txt in Resources */,
 				5A285CE22404AE0900850F6D /* GameScene.sks in Resources */,
 				5A285CED2404AE0A00850F6D /* Assets.xcassets in Resources */,
 				5A285CF02404AE0A00850F6D /* LaunchScreen.storyboard in Resources */,
