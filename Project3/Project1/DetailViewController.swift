@@ -28,7 +28,36 @@ class DetailViewController: UIViewController {
         )
         
         if let imageToLoad = selectedImage {
-            imageView.image = UIImage(named: imageToLoad)
+            guard let image = UIImage(named: imageToLoad) else {
+                print("No image found")
+                return
+            }
+            
+            let renderer = UIGraphicsImageRenderer(size: image.size)
+            
+            let newImage = renderer.image {
+                ctx in
+                let paragraphStyle = NSMutableParagraphStyle()
+                paragraphStyle.alignment = .center
+                
+                let attrs: [NSAttributedString.Key: Any] = [
+                    .font: UIFont.systemFont(ofSize: 24),
+                    .paragraphStyle: paragraphStyle
+                ]
+                
+                let string = "From Storm Viewer"
+                
+                let attributedString = NSAttributedString(string: string, attributes: attrs)
+                
+                attributedString.draw(
+                    with: CGRect(x: 20, y: 20, width: image.size.width - 20, height: image.size.height - 20),
+                    options: .usesLineFragmentOrigin, context: nil
+                )
+                
+//                image.draw(at: CGPoint(x: 0, y: 0))
+            }
+            
+            imageView.image = newImage
         }
     }
     
@@ -43,12 +72,17 @@ class DetailViewController: UIViewController {
     }
     
     @objc func shareTapped() {
-        guard let image = imageView.image?.jpegData(compressionQuality: 0.8) else {
+        guard let image = imageView.image else {
             print("No image found")
             return
         }
         
-        let vc = UIActivityViewController(activityItems: [image, selectedImage!], applicationActivities: [])
+        guard let imageData = image.jpegData(compressionQuality: 0.8) else {
+            print("No image found")
+            return
+        }
+        
+        let vc = UIActivityViewController(activityItems: [imageData, selectedImage!], applicationActivities: [])
         vc.popoverPresentationController?.barButtonItem = navigationItem.rightBarButtonItem
         
         present(vc, animated: true)
