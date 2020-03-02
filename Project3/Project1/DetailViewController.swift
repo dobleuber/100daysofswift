@@ -33,31 +33,7 @@ class DetailViewController: UIViewController {
                 return
             }
             
-            let renderer = UIGraphicsImageRenderer(size: image.size)
-            
-            let newImage = renderer.image {
-                ctx in
-                let paragraphStyle = NSMutableParagraphStyle()
-                paragraphStyle.alignment = .center
-                
-                let attrs: [NSAttributedString.Key: Any] = [
-                    .font: UIFont.systemFont(ofSize: 24),
-                    .paragraphStyle: paragraphStyle
-                ]
-                
-                let string = "From Storm Viewer"
-                
-                let attributedString = NSAttributedString(string: string, attributes: attrs)
-                
-                attributedString.draw(
-                    with: CGRect(x: 20, y: 20, width: image.size.width - 20, height: image.size.height - 20),
-                    options: .usesLineFragmentOrigin, context: nil
-                )
-                
-//                image.draw(at: CGPoint(x: 0, y: 0))
-            }
-            
-            imageView.image = newImage
+            imageView.image = image
         }
     }
     
@@ -77,7 +53,31 @@ class DetailViewController: UIViewController {
             return
         }
         
-        guard let imageData = image.jpegData(compressionQuality: 0.8) else {
+        let renderer = UIGraphicsImageRenderer(size: image.size)
+        
+        let newImage = renderer.image {
+            ctx in
+            let paragraphStyle = NSMutableParagraphStyle()
+            paragraphStyle.alignment = .center
+            
+            let attrs: [NSAttributedString.Key: Any] = [
+                .font: UIFont.systemFont(ofSize: 24),
+                .paragraphStyle: paragraphStyle
+            ]
+            
+            let string = "From Storm Viewer"
+            
+            let attributedString = NSAttributedString(string: string, attributes: attrs)
+            
+            image.draw(at: CGPoint(x: 0, y: 0))
+            
+            attributedString.draw(
+                with: CGRect(x: 20, y: 20, width: image.size.width - 20, height: image.size.height - 20),
+                options: .usesLineFragmentOrigin, context: nil
+            )
+        }
+        
+        guard let imageData = newImage.jpegData(compressionQuality: 0.8) else {
             print("No image found")
             return
         }
@@ -87,16 +87,4 @@ class DetailViewController: UIViewController {
         
         present(vc, animated: true)
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

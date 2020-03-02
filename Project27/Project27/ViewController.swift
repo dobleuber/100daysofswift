@@ -159,7 +159,7 @@ class ViewController: UIViewController {
             
             let attrs: [NSAttributedString.Key: Any] = [
                 .font: UIFont.systemFont(ofSize: 36),
-                .paragraphStyle: paragraphStyle
+                .paragraphStyle: paragraphStyle,
             ]
             
             let string = "The best-laid schemes 0'\nmice an' men gang aft agley"
