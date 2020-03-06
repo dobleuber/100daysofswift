@@ -75,6 +75,8 @@ class ViewController: UIViewController {
         title = "Secret Stuff!"
         
         secret.text = KeychainWrapper.standard.string(forKey: "SecretMessage") ?? ""
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(saveSecretMessage))
     }
     
     @objc func saveSecretMessage() {
@@ -84,6 +86,7 @@ class ViewController: UIViewController {
         secret.resignFirstResponder()
         secret.isHidden = true
         title = "Nothing to see here"
+        navigationItem.rightBarButtonItem = nil
     }
 }
 

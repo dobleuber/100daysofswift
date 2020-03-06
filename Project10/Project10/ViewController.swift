@@ -6,16 +6,22 @@
 //  Copyright © 2020 Wbert Castro. All rights reserved.
 //
 
+import LocalAuthentication
 import UIKit
 
 class ViewController: UICollectionViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     var people = [Person]()
     var selectedPersonIndex: Int!
+    var isAuthenticated = false {
+        didSet {
+            refreshMenu()
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addNewPerson))
+        refreshMenu()
     }
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -42,12 +48,48 @@ class ViewController: UICollectionViewController, UIImagePickerControllerDelegat
         return cell
     }
     
+    func refreshMenu() {
+        if isAuthenticated {
+            navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addNewPerson))
+        } else {
+            navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Authenticate", style: .plain, target: self, action: #selector(authenticateTapped))
+        }
+    }
+    
     @objc func addNewPerson() {
         let picker = UIImagePickerController()
 //        picker.sourceType = .camera
         picker.allowsEditing = true
         picker.delegate = self
         present(picker, animated: true)
+    }
+    
+    @objc func authenticateTapped() {
+        let context = LAContext()
+        var error: NSError?
+        
+        if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
+            let reason = "Identify yourself!"
+            
+            context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) {
+                [weak self] success, authenticationError in
+                DispatchQueue.main.async {
+                    if success {
+                        self?.isAuthenticated = true
+                    } else {
+                        let ac = UIAlertController(title: "Authentication Failed", message: "You could not verified; please try again", preferredStyle: .alert)
+                        ac.addAction(UIAlertAction(title: "Ok", style: .default))
+                        
+                        self?.present(ac, animated: true)
+                    }
+                }
+            }
+        } else {
+            let ac = UIAlertController(title: "Biometry unavailable", message: "Your device is not configured for biometric authentication.", preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: "Ok", style: .default))
+            
+            present(ac, animated: true)
+        }
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
