@@ -18,6 +18,32 @@ class GameViewController: UIViewController {
     @IBOutlet var velocityLabel: UILabel!
     @IBOutlet var playerNumber: UILabel!
     @IBOutlet var launchButton: UIButton!
+    @IBOutlet var scoreLabel: UILabel!
+    @IBOutlet var windDirection: UILabel!
+    
+    var scorePlayer1 = 0 {
+        didSet {
+            scoreLabel.text = "\(scorePlayer1) - \(scorePlayer2)"
+        }
+    }
+    
+    var scorePlayer2 = 0 {
+        didSet {
+            scoreLabel.text = "\(scorePlayer1) - \(scorePlayer2)"
+        }
+    }
+    
+    var wind: Int = 0 {
+        didSet {
+            if wind > 0 {
+                windDirection.text = "East: \(wind)"
+            } else {
+                windDirection.text = "West: \(-wind)"
+            }
+        }
+    }
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,6 +69,7 @@ class GameViewController: UIViewController {
         
         angleChanged(self)
         velocityChanged(self)
+        windChanged()
     }
 
     override var shouldAutorotate: Bool {
@@ -92,5 +119,10 @@ class GameViewController: UIViewController {
         velocitySlider.isHidden = false
         
         launchButton.isHidden = false
+    }
+    
+    func windChanged() {
+        wind = Int.random(in: -10...10)
+        currentGame?.physicsWorld.gravity = CGVector(dx: CGFloat(wind), dy: -9.8)
     }
 }
